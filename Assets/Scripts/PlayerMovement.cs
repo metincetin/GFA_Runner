@@ -24,6 +24,13 @@ public class PlayerMovement : MonoBehaviour
 
 	private void Update()
 	{
+		if (!GameInstance.Instance.IsGameStarted)
+		{
+			_velocity = Vector3.zero;
+			return;
+		}
+
+		
 		_velocity.z = _forwardSpeed;
 		_velocity.y = _rigidbody.velocity.y;
 		_velocity.x = Input.GetAxis("Horizontal") * _horizontalSpeed;
