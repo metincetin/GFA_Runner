@@ -70,6 +70,16 @@ public class GameInstance : MonoBehaviour
 		}
 	}
 
+	public void LoadCurrentLevel()
+	{
+		SceneManager.LoadScene(0);
+	}
+
+	public void RestartLevel()
+	{
+		SceneManager.LoadScene(0);
+	}
+
 	public void Win()
 	{
 		Level++;
