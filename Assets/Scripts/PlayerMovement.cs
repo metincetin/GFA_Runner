@@ -11,6 +11,11 @@ public class PlayerMovement : MonoBehaviour
 	[SerializeField] private Rigidbody _rigidbody;
 
 	[SerializeField] private float _jumpPower;
+	public float JumpPower
+	{
+		get => _jumpPower;
+		set => _jumpPower = value;
+	}
 
 	private Vector3 _velocity = new Vector3();
 	
