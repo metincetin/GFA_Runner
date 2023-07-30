@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Gold : Collectible
 {
-	protected override void OnCollected()
+	protected override void OnCollected(GameObject collectedBy)
 	{
-		GameInstance.Instance.Gold++;
+		GameInstance.Instance.Gold += Mathf.RoundToInt(1 * GameInstance.Instance.GoldMultiplier);
 		Debug.Log(GameInstance.Instance.Gold);
 	}
 }
