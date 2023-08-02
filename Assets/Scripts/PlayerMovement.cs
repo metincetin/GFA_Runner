@@ -9,7 +9,7 @@ public class PlayerMovement : MonoBehaviour
 	[SerializeField] private float _horizontalSpeed;
 
 	[SerializeField] private Rigidbody _rigidbody;
-
+    
 	[SerializeField] private float _jumpPower;
 	public float JumpPower
 	{
@@ -59,7 +59,7 @@ public class PlayerMovement : MonoBehaviour
 		}
 		_rigidbody.velocity = _velocity;
 
-		Debug.DrawRay(_rigidbody.position, Vector3.down * 1.05f);
-		_isGrounded = Physics.Raycast(_rigidbody.position, Vector3.down, 1.05f);
+		Debug.DrawRay(_rigidbody.position + Vector3.up, Vector3.down * 1.05f);
+		_isGrounded = Physics.Raycast(_rigidbody.position + Vector3.up, Vector3.down, 1.05f);
 	}
 }
