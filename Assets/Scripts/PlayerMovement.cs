@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,11 +19,16 @@ public class PlayerMovement : MonoBehaviour
 	}
 
 	private Vector3 _velocity = new Vector3();
+
+	public Vector3 Velocity => _rigidbody.velocity;
 	
 	[SerializeField]
 	private float _maxHorizontalDistance;
 
 	private bool _isGrounded;
+	public bool IsGrounded => _isGrounded;
+
+	public event Action Jumped;
 	
 		
 		
@@ -43,6 +49,7 @@ public class PlayerMovement : MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.Space) && _isGrounded)
 		{
 			_velocity.y = _jumpPower;
+			Jumped?.Invoke();
 			//_rigidbody.AddForce(Vector3.up * _jumpPower, ForceMode.Impulse);
 			_isGrounded = false;
 		}
