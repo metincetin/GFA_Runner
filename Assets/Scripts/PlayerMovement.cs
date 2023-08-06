@@ -29,6 +29,8 @@ public class PlayerMovement : MonoBehaviour
 	public bool IsGrounded => _isGrounded;
 
 	public event Action Jumped;
+
+	private bool _jumpRequested;
 	
 		
 		
@@ -43,12 +45,11 @@ public class PlayerMovement : MonoBehaviour
 
 		
 		_velocity.z = _forwardSpeed;
-		_velocity.y = _rigidbody.velocity.y;
 		_velocity.x = Input.GetAxis("Horizontal") * _horizontalSpeed;
 
-		if (Input.GetKeyDown(KeyCode.Space) && _isGrounded)
+		if (Input.GetKeyDown(KeyCode.Space) && _isGrounded && !_jumpRequested)
 		{
-			_velocity.y = _jumpPower;
+			_jumpRequested = true;
 			Jumped?.Invoke();
 			//_rigidbody.AddForce(Vector3.up * _jumpPower, ForceMode.Impulse);
 			_isGrounded = false;
@@ -57,6 +58,16 @@ public class PlayerMovement : MonoBehaviour
 
 	private void FixedUpdate()
 	{
+		if (_jumpRequested)
+		{
+			_velocity.y = _jumpPower;
+			_jumpRequested = false;
+		}
+		else
+		{
+			_velocity.y = _rigidbody.velocity.y;
+		}
+
 		if (Mathf.Abs(_rigidbody.position.x) > _maxHorizontalDistance)
 		{
 			var clampedPosition = _rigidbody.position;

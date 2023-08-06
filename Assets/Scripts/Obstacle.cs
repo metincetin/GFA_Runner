@@ -13,7 +13,10 @@ public class Obstacle : MonoBehaviour
             
             var hitDot = Vector3.Dot(hitNormal, Vector3.forward);
             
-            if (hitDot > 0.99f)
+            Debug.Log("HitDot: " + hitDot);
+            Debug.DrawRay(collision.GetContact(0).point, hitNormal * 10, Color.red, 10);
+            
+            if (hitDot > 0.1f)
             {
                 GameInstance.Instance.Lose();
                 //Destroy(collision.gameObject);
