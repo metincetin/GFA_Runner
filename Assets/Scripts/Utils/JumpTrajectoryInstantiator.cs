@@ -25,36 +25,47 @@ public class JumpTrajectoryInstantiator : MonoBehaviour
     [SerializeField]
     private bool _useAnimationCurve;
 
-    private List<GameObject> _instanceList = new List<GameObject>();
-    
-    private void OnValidate()
-    {
-        CreateObjects();
-    }
-
     private void Start()
     {
         CreateObjects();
     }
 
-    #if UNITY_EDITOR
-    // it seems, for Destroy calls to be working inside OnValidate event, we have to call a coroutine.
-    private IEnumerator RemoveDelayed(GameObject obj)
+
+    private void OnDrawGizmos()
     {
-        yield return null;
-        DestroyImmediate(obj);
+        //Gizmos.
+        for (int i = 0; i < _instanceCount - 1; i++)
+        {
+            Vector3 startPosition = new Vector3();
+            Vector3 endPosition = new Vector3();
+
+            // _distance / 2 == _distance * 0.5f;
+            float startTime = (float)i / (_instanceCount - 1);
+            float endTime = (float)(i + 1) / (_instanceCount - 1);
+            
+            startPosition.z = Mathf.Lerp(-_distance * 0.5f, _distance * 0.5f, startTime);
+            endPosition.z = Mathf.Lerp(-_distance * 0.5f, _distance * 0.5f, endTime);
+            
+            if (_useAnimationCurve)
+            {
+                startPosition.y = _curve.Evaluate(startTime) * _magnitude;
+                endPosition.y = _curve.Evaluate(endTime) * _magnitude;
+            }
+            else
+            {
+                startPosition.y = Mathf.Sin(startTime* Mathf.PI) * _magnitude;
+                endPosition.y = Mathf.Sin(endTime * Mathf.PI) * _magnitude;
+            }
+
+            Gizmos.DrawLine(transform.position + startPosition, transform.position + endPosition);
+        }
     }
-    #endif
-    
+
     private void CreateObjects()
     {
         foreach (Transform c in transform)
         {
-            #if UNITY_EDITOR
-            StartCoroutine(RemoveDelayed(c.gameObject));
-            #else
             Destroy(c.gameObject);
-            #endif
         }
 
         for (int i = 0; i < _instanceCount; i++)
@@ -81,10 +92,5 @@ public class JumpTrajectoryInstantiator : MonoBehaviour
 
             objectInstance.transform.localPosition = localPosition;
         }
-        
-        #if UNITY_EDITOR
-        // Setting dirty means there is a change. Without dirty flag, unity considers there is no change, so it might not be saved at all.
-        EditorUtility.SetDirty(gameObject);
-        #endif
     }
 }
