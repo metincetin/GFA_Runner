@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
@@ -10,5 +11,10 @@ public class CoinIdleAnimation : MonoBehaviour
     {
         transform.DOLocalMoveY(1, 1).SetLoops(-1, LoopType.Yoyo);
         transform.DOLocalRotate(Vector3.up * 360,2, RotateMode.WorldAxisAdd).SetLoops(-1).SetEase(Ease.Linear);
+    }
+
+    private void OnDestroy()
+    {
+        transform.DOKill();
     }
 }

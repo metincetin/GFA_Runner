@@ -6,7 +6,7 @@ using UnityEngine;
 public class UIPageController : MonoBehaviour
 {
 	[SerializeField]
-	private GameObject _menuPage;
+	private MenuScreen _menuPage;
 	
 	[SerializeField]
 	private GameObject _gamePage;
@@ -19,7 +19,7 @@ public class UIPageController : MonoBehaviour
 
 	private void Start()
 	{
-		_menuPage.SetActive(true);
+		_menuPage.Open();
 	}
 
 	private void OnEnable()
@@ -51,7 +51,7 @@ public class UIPageController : MonoBehaviour
 
 	private void OnGameStarted()
 	{
-		_menuPage.SetActive(false);
+		_menuPage.Close();
 		_gamePage.SetActive(true);
 	}
 }
