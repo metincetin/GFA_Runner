@@ -10,6 +10,9 @@ public class PlayerAnimation : MonoBehaviour
 
     [SerializeField]
     private PlayerMovement _movement;
+    
+    [SerializeField]
+    private Ragdollify _ragdollify;
 
     private void OnEnable()
     {
@@ -30,5 +33,11 @@ public class PlayerAnimation : MonoBehaviour
     {
         _animator.SetFloat("MovementSpeed", _movement.Velocity.z);
         _animator.SetBool("IsGrounded", _movement.IsGrounded);
+    }
+
+    public void OnDied(Collision collision)
+    {
+        _ragdollify.Activate();
+        _ragdollify.AddExplosionForce(15, collision.GetContact(0).point, 5);
     }
 }

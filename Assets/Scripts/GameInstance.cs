@@ -42,34 +42,27 @@ public class GameInstance : MonoBehaviour
 		GameEnded?.Invoke();
 	}
 
-	/*
-	 get 
-	 {
-		return _gold;
-	 }
-	 */
-	private int _gold;
+
 	public int Gold
 	{
-		get => _gold;
+		get => PlayerPrefs.GetInt("gold", 0);
 		set
 		{
-			_gold = value;
-			GoldChanged?.Invoke(_gold);
+			PlayerPrefs.SetInt("gold", value);
+			GoldChanged?.Invoke(value);
 		}
 	}
 
 	public float GoldMultiplier { get; set; } = 1;
 	
 	// public int Gold { get; set; }
-	private int _level;
 	public int Level
 	{
-		get => _level;
+		get => PlayerPrefs.GetInt("level",0);
 		set
 		{
-			_level = value;
-			LevelChanged?.Invoke(_level);
+			PlayerPrefs.SetInt("level", value);
+			LevelChanged?.Invoke(value);
 		}
 	}
 
